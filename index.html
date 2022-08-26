@@ -2,10 +2,10 @@
 <html lang="ja">
     <head>
         <meta charset="UTF-8">
-        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:card" content="app" />
         <meta name="twitter:title" content="ドライブのダウンロードURL生成" />
         <meta name="twitter:description" content="GoogleドライブのファイルURLから、「押すだけでそのファイルがダウンロードされる」URLを生成することができます。" />
-        <meta name="twitter:image" content="https://raw.githubusercontent.com/shadowchairmin/assets/main/Icon6_backwhite.png" />
+        <meta name="twitter:image" content="" />
         <title>ダウンロードURL生成</title>
         <link rel="icon" href="Icon6.png">
         <style type="text/css">
@@ -19,10 +19,10 @@
                 margin-left: 10px;
                 margin-right: 10px;
                 line-height: 1.5em;
-                -webkit-text-size-adjust: 300%;
+                -webkit-text-size-adjust: none;
             }
-            input[type=checkbox] {
-                transform:scale(1.5);
+            input[type="checkbox"] {
+                transform: scale(1.4);
             }
         </style>
     </head>
@@ -36,14 +36,14 @@
             <p>Googleドライブ上にある好きなファイルのURL(リンク)を本ページに入力することで、<b>開いただけでそのファイルのダウンロードが自動的に行われるようなURLを作る</b>ことができます。
             </p>
             <p><a href="https://drive.google.com/drive/u/0/my-drive" target="_blank">マイドライブのサイトへ移動</a></p>
-            <small>●生成したダウンロード用リンクも通常のリンクと同じく、そのファイルの共有設定でアクセス権を付与している人だけが実際に開くことができます。ファイルが誰でも閲覧できるように共有してあれば、誰でも生成したURLを押してファイルをダウンロードすることが可能です。
+            <small>●生成したダウンロード用リンクも通常のリンクと同じく、そのファイルの共有設定でアクセス権を付与している人だけが実際に開くことができます。
                 <br>●ファイルの共有設定にて閲覧者のダウンロードを禁止にしているファイルをダウンロードできるようにすることはできません。
                 <br><font color="green" ><b>●スマホアプリ版のGoogleドライブでは動作しない可能性があります。</b></font>
             </small>
         </div>
         <div id="mainui" style="border: 1px solid black;">
             <p>ここにGoogleドライブ上のファイルのURLを入力してください</p>
-            <input id="urlinput" type="url" style="width:80%; padding: 0.3em;" placeholder="ここにリンクを入力" oninput="URLinput();" onfocus="this.select();"><br>
+            <input id="urlinput" type="url" style="width: 80%; padding: 0.3em;" placeholder="ここにリンクを入力" oninput="URLinput();" onfocus="this.select();"><br>
             <small id="urlmes"></small>
             <p id="result" style="display:inline-block; background-color:rgb(239, 239, 239); width:80%; overflow-wrap: break-word; box-shadow: 2px 2px 2px 0 gainsboro; display: none;"><b>ダウンロード用URL：</b><br></p>
             <button id="copybutton" type="button" onclick="copyClicked()"; style="display: none; box-shadow: 2px 2px 2px 0 gainsboro; cursor:pointer;"><img src="copyicon.png" width="20em" height="20em" style="vertical-align: middle;">クリップボードにコピー</button>
@@ -75,6 +75,10 @@
             let autocopy = null;
 
             window.onload = function init() {
+                
+                if (navigator.userAgent.match(/iPhone|Android.+Mobile/)) {
+                    document.querySelector("head").insertAdjacentHTML("beforeend","<style>html,body{zoom:140%;}</style>")
+                }
                 if (!localStorage.getItem("myvisits")) {
                     localStorage.setItem("myvisits",1)
                 } else {
@@ -244,7 +248,7 @@
                 if (!ConvertedURL.startsWith("err:") && ConvertedURL!=null) {
                     copyText(ConvertedURL); 
                     w = document.getElementById("copybutton").offsetWidth
-                    document.getElementById("copybutton").innerHTML = "<img src='goodicon.png' width='25em' height='25em' style='vertical-align: middle;'>コピーされました";
+                    document.getElementById("copybutton").innerHTML = "<img src='goodicon.png' width='100%' height='100%' style='vertical-align: middle;'>コピーされました";
                     document.getElementById("copybutton").style.width = w+"px"
                 }
             }
